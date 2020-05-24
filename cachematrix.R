@@ -3,10 +3,10 @@
 
 
 #' "Special" matrix cache object to map matrix values and the respective inverse matrix in cache:   
-#' * set the value of the vector   
-#' * get the value of the vector   
-#' * set the value of the mean   
-#' * get the value of the mean   
+#' * set the value of the matrix   
+#' * get the value of the matrix   
+#' * set the value of the inverse matrix   
+#' * get the value of the inverse matrix   
 #'
 #' @param x The matrix to retrieve a 'cache-matrix object'
 #'
@@ -44,12 +44,15 @@ makeCacheMatrix <- function(x = matrix()) {
 #' cacheSolve(a) # => should retrieve cache instead of calculating
 cacheSolve <- function(x, ...) {
     m <- x$getinverse()
+    
+    # is m cached?
     if(!is.null(m)) {
       message("getting cached data")
       return(m)
     }
+    
     data <- x$get()
-    m <- solve(data)
+    m <- solve(data, ...) 
     x$setinverse(m)
     m
 }
